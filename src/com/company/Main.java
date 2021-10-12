@@ -19,20 +19,16 @@ public class Main
             {
                 System.out.println("Подключение к порту: " + port + "...");
                 Socket fromClientSocket = serversocket.accept();
-                try(Socket localSocket = fromClientSocket; PrintWriter printwriter = new PrintWriter(localSocket.getOutputStream(),true); BufferedReader br = new BufferedReader(new InputStreamReader(localSocket.getInputStream())))
+                try(Socket socket = fromClientSocket; PrintWriter printwriter = new PrintWriter(socket.getOutputStream(),true); BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(socket.getInputStream())))
                 {
                     // Ввод данных
-                    while ((str1 = br.readLine()) != null && (str2 = br.readLine()) != null && (str3 = br.readLine()) != null)
+                    while ((str1 = bufferedreader.readLine()) != null && (str2 = bufferedreader.readLine()) != null && (str3 = bufferedreader.readLine()) != null)
                     {
-                        if (str1.equals("bye") || str2.equals("bye") || str3.equals("bye"))
-                        { printwriter.println("Прощай!"); break; }
+                        if (str1.equals("bye") || str2.equals("bye") || str3.equals("bye")) { printwriter.println("Прощай!"); break; }
                         else
                         {
                             // Первая строка, вторая строка, третья строка
-                            System.out.println("1-е сообщение: " + str1);
-                            System.out.println("2-е сообщение: " + str2);
-                            System.out.println("3-е сообщение: " + str3);
-                            printwriter.println("Сообщения от клиента на сервак доставлены!");
+                            printwriter.println("Сообщения (" + str1 + ", " + str2 + ", " + str3 + ") на сервак доставлены!");
                             switch (str2)
                             {
                                 case "+": { System.out.print("Ответ: "); System.out.println(Integer.parseInt(str1) + Integer.parseInt(str3)); break; }
